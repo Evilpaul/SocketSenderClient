@@ -73,6 +73,8 @@
 			this.ServerIpBox.Name = "ServerIpBox";
 			this.ServerIpBox.Size = new System.Drawing.Size(100, 20);
 			this.ServerIpBox.TabIndex = 2;
+			this.ServerIpBox.TextChanged += new System.EventHandler(this.ServerIpBox_TextChanged);
+			this.ServerIpBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ServerIpBox_KeyPress);
 			// 
 			// PortNoBox
 			// 
@@ -81,6 +83,7 @@
 			this.PortNoBox.Name = "PortNoBox";
 			this.PortNoBox.Size = new System.Drawing.Size(100, 20);
 			this.PortNoBox.TabIndex = 3;
+			this.PortNoBox.TextChanged += new System.EventHandler(this.PortNoBox_TextChanged);
 			this.PortNoBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PortNoBox_KeyPress);
 			// 
 			// label1

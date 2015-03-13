@@ -38,7 +38,14 @@ namespace SocketSenderClient
 			{
 				ServerIpBox.Enabled = !status;
 				PortNoBox.Enabled = !status;
-				OpenSocketButton.Enabled = !status;
+				if (!status)
+				{
+					UpdateOpenBtnStatus();
+				}
+				else
+				{
+					OpenSocketButton.Enabled = !status;
+				}
 				CloseSocketButton.Enabled = status;
 				if (status)
 				{
@@ -230,6 +237,21 @@ namespace SocketSenderClient
 			return port;
 		}
 
+		private void UpdateOpenBtnStatus()
+		{
+			Match matchIp = Regex.Match(ServerIpBox.Text, @"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}");
+			Match matchPort = Regex.Match(PortNoBox.Text, @"\d");
+
+			if (String.IsNullOrEmpty(ServerIpBox.Text) || String.IsNullOrEmpty(PortNoBox.Text) || !matchIp.Success || !matchPort.Success)
+			{
+				OpenSocketButton.Enabled = false;
+			}
+			else
+			{
+				OpenSocketButton.Enabled = true;
+			}
+		}
+
 		private void UpdateSendBtnStatus()
 		{
 			if(String.IsNullOrEmpty(MsgBox.Text))
@@ -279,7 +301,6 @@ namespace SocketSenderClient
 
 		private void MsgBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			
 			if (!Regex.IsMatch(e.KeyChar.ToString(), "^[0-9a-fA-F\b]+$"))
 			{
 				e.Handled = true;
@@ -294,6 +315,24 @@ namespace SocketSenderClient
 		private void MsgBox_TextChanged(object sender, EventArgs e)
 		{
 			UpdateSendBtnStatus();
+		}
+
+		private void ServerIpBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!Regex.IsMatch(e.KeyChar.ToString(), "^[0-9.\b]+$"))
+			{
+				e.Handled = true;
+			}
+		}
+
+		private void ServerIpBox_TextChanged(object sender, EventArgs e)
+		{
+			UpdateOpenBtnStatus();
+		}
+
+		private void PortNoBox_TextChanged(object sender, EventArgs e)
+		{
+			UpdateOpenBtnStatus();
 		}
 	}
 }
