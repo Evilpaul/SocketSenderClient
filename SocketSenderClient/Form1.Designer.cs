@@ -42,6 +42,7 @@
 			this.MsgBox = new System.Windows.Forms.TextBox();
 			this.MessageList = new System.Windows.Forms.ListView();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.SuspendLayout();
 			// 
 			// OpenSocketButton
@@ -67,6 +68,7 @@
 			// 
 			// ServerIpBox
 			// 
+			this.ServerIpBox.ContextMenuStrip = this.contextMenuStrip1;
 			this.ServerIpBox.Location = new System.Drawing.Point(69, 6);
 			this.ServerIpBox.Name = "ServerIpBox";
 			this.ServerIpBox.Size = new System.Drawing.Size(100, 20);
@@ -74,6 +76,7 @@
 			// 
 			// PortNoBox
 			// 
+			this.PortNoBox.ContextMenuStrip = this.contextMenuStrip1;
 			this.PortNoBox.Location = new System.Drawing.Point(69, 32);
 			this.PortNoBox.Name = "PortNoBox";
 			this.PortNoBox.Size = new System.Drawing.Size(100, 20);
@@ -120,6 +123,7 @@
 			// 
 			// MsgBox
 			// 
+			this.MsgBox.ContextMenuStrip = this.contextMenuStrip1;
 			this.MsgBox.Enabled = false;
 			this.MsgBox.Location = new System.Drawing.Point(78, 278);
 			this.MsgBox.Name = "MsgBox";
@@ -145,6 +149,11 @@
 			this.MessageList.UseCompatibleStateImageBehavior = false;
 			this.MessageList.View = System.Windows.Forms.View.List;
 			this.MessageList.ItemActivate += new System.EventHandler(this.MessageList_ItemActivate);
+			// 
+			// contextMenuStrip1
+			// 
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
 			// 
 			// Form1
 			// 
@@ -183,6 +192,7 @@
 		private System.Windows.Forms.TextBox MsgBox;
 		private System.Windows.Forms.ListView MessageList;
 		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 	}
 }
 
