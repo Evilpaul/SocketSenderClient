@@ -69,6 +69,8 @@ namespace SocketSenderClient
 			PortNoBox.Text = "5050";
 
 			toolTip1.SetToolTip(MsgBox, "Hex input (e.g. DEADBEEF01)");
+
+			progress_hmi.Report(false);
 		}
 
 		private string GetIP()
