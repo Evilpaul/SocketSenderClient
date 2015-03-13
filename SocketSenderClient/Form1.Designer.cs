@@ -29,11 +29,16 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("NightMode: Off");
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("NightMode: On");
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "NightMode: Off",
+            "100600"}, -1);
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "NightMode: On",
+            "100601"}, -1);
 			this.OpenSocketButton = new System.Windows.Forms.Button();
 			this.CloseSocketButton = new System.Windows.Forms.Button();
 			this.ServerIpBox = new System.Windows.Forms.TextBox();
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.PortNoBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -42,7 +47,8 @@
 			this.MsgBox = new System.Windows.Forms.TextBox();
 			this.MessageList = new System.Windows.Forms.ListView();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.Data = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
 			// OpenSocketButton
@@ -75,6 +81,11 @@
 			this.ServerIpBox.TabIndex = 2;
 			this.ServerIpBox.TextChanged += new System.EventHandler(this.ServerIpBox_TextChanged);
 			this.ServerIpBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ServerIpBox_KeyPress);
+			// 
+			// contextMenuStrip1
+			// 
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
 			// 
 			// PortNoBox
 			// 
@@ -138,25 +149,38 @@
 			// MessageList
 			// 
 			this.MessageList.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+			this.MessageList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Description,
+            this.Data});
 			this.MessageList.Enabled = false;
-			listViewItem1.Tag = "100600";
-			listViewItem2.Tag = "100601";
+			this.MessageList.FullRowSelect = true;
+			this.MessageList.GridLines = true;
+			this.MessageList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			listViewItem1.Tag = "";
+			listViewItem2.Tag = "";
 			this.MessageList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2});
 			this.MessageList.Location = new System.Drawing.Point(337, 6);
 			this.MessageList.MultiSelect = false;
 			this.MessageList.Name = "MessageList";
+			this.MessageList.ShowGroups = false;
 			this.MessageList.Size = new System.Drawing.Size(213, 292);
+			this.MessageList.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.MessageList.TabIndex = 9;
 			this.MessageList.UseCompatibleStateImageBehavior = false;
-			this.MessageList.View = System.Windows.Forms.View.List;
+			this.MessageList.View = System.Windows.Forms.View.Details;
 			this.MessageList.ItemActivate += new System.EventHandler(this.MessageList_ItemActivate);
 			// 
-			// contextMenuStrip1
+			// Description
 			// 
-			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+			this.Description.Text = "Description";
+			this.Description.Width = 82;
+			// 
+			// Data
+			// 
+			this.Data.Text = "Data";
+			this.Data.Width = 127;
 			// 
 			// Form1
 			// 
@@ -196,6 +220,8 @@
 		private System.Windows.Forms.ListView MessageList;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		private System.Windows.Forms.ColumnHeader Description;
+		private System.Windows.Forms.ColumnHeader Data;
 	}
 }
 

@@ -311,7 +311,7 @@ namespace SocketSenderClient
 
 		private void MessageList_ItemActivate(object sender, EventArgs e)
 		{
-			MsgBox.Text = MessageList.SelectedItems[0].Tag.ToString();
+			MsgBox.Text = MessageList.SelectedItems[0].SubItems[1].Text;
 		}
 
 		private void MsgBox_TextChanged(object sender, EventArgs e)
