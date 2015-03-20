@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
-using System.Net.Sockets;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
 
 namespace SocketSenderClient
 {
@@ -19,10 +10,7 @@ namespace SocketSenderClient
 		private IProgress<string> progress_str;
 		private IProgress<Boolean> progress_hmi;
 
-		byte[] m_dataBuffer = new byte[10];
-		IAsyncResult m_result;
-		public AsyncCallback m_pfnCallBack;
-		private Socket m_clientSocket;
+		private Client client;
 
 		public Form1()
 		{
@@ -58,10 +46,9 @@ namespace SocketSenderClient
 				MsgBox.Enabled = status;
 				MessageList.Enabled = status;
 
-				if ((status == false) && (m_clientSocket != null))
+				if (!status)
 				{
-					m_clientSocket.Close();
-					m_clientSocket = null;
+					client.closeSocket();
 				}
 			});
 
@@ -71,6 +58,8 @@ namespace SocketSenderClient
 			toolTip1.SetToolTip(MsgBox, "Hex input (e.g. DEADBEEF01)");
 
 			progress_hmi.Report(false);
+
+			client = new Client(progress_str, progress_hmi);
 		}
 
 		private string GetIP()
@@ -90,68 +79,6 @@ namespace SocketSenderClient
 			return IPStr;
 		}
 
-		public static byte[] StringToByteArray(string hex)
-		{
-			return Enumerable.Range(0, hex.Length)
-							 .Where(x => x % 2 == 0)
-							 .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-							 .ToArray();
-		}
-
-		public void OnDataReceived(IAsyncResult asyn)
-		{
-			try
-			{
-				SocketPacket theSockId = (SocketPacket)asyn.AsyncState;
-				int iRx = theSockId.thisSocket.EndReceive(asyn);
-				char[] chars = new char[iRx + 1];
-				Decoder d = Encoding.UTF8.GetDecoder();
-				int charLen = d.GetChars(theSockId.dataBuffer, 0, iRx, chars, 0);
-				String szData = new String(chars);
-				progress_str.Report(szData);
-				WaitForData();
-			}
-			catch (ObjectDisposedException)
-			{
-				progress_str.Report("OnDataReceived: Socket has been closed");
-			}
-			catch (SocketException se)
-			{
-				progress_str.Report(se.Message);
-				progress_hmi.Report(false);
-			}
-		}
-
-		public void WaitForData()
-		{
-			try
-			{
-				if (m_pfnCallBack == null)
-				{
-					m_pfnCallBack = new AsyncCallback(OnDataReceived);
-				}
-				SocketPacket theSocPkt = new SocketPacket();
-				theSocPkt.thisSocket = m_clientSocket;
-				// Start listening to the data asynchronously
-				m_result = m_clientSocket.BeginReceive(theSocPkt.dataBuffer,
-														0,
-														theSocPkt.dataBuffer.Length,
-														SocketFlags.None,
-														m_pfnCallBack,
-														theSocPkt);
-			}
-			catch (SocketException se)
-			{
-				progress_str.Report(se.Message);
-			}
-		}
-
-		public class SocketPacket
-		{
-			public System.Net.Sockets.Socket thisSocket;
-			public byte[] dataBuffer = new byte[1];
-		}
-
 		private void OpenSocketButton_Click(object sender, EventArgs e)
 		{
 			OpenSocketButton.Enabled = false;
@@ -165,45 +92,7 @@ namespace SocketSenderClient
 				return;
 			}
 
-			try
-			{
-				// Create the socket instance
-				m_clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-				m_clientSocket.ReceiveTimeout = 15000;
-
-				// Cet the remote IP address
-				IPAddress ip = parseIpAddr();
-				int iPortNo = parsePortNo();
-
-				if ((ip != null) && (iPortNo >= System.Net.IPEndPoint.MinPort) && (iPortNo <= System.Net.IPEndPoint.MaxPort))
-				{
-					// Create the end point 
-					IPEndPoint ipEnd = new IPEndPoint(ip, iPortNo);
-					// Connect to the remote host
-					m_clientSocket.Connect(ipEnd);
-					if (m_clientSocket.Connected)
-					{
-
-						progress_hmi.Report(true);
-						//Wait for data asynchronously 
-						WaitForData();
-					}
-					else
-					{
-						progress_hmi.Report(false);
-					}
-				}
-				else
-				{
-					progress_hmi.Report(false);
-				}
-			}
-			catch (SocketException se)
-			{
-				progress_str.Report("Connection failed, is the server running?");
-				progress_str.Report(se.Message);
-				progress_hmi.Report(false);
-			}
+			client.openSocket(parseIpAddr(), parsePortNo());
 		}
 
 		private IPAddress parseIpAddr()
@@ -277,20 +166,7 @@ namespace SocketSenderClient
 		{
 			progress_str.Report("Sending Msg...");
 
-			try
-			{
-				Object objData = MsgBox.Text;
-				byte[] byData = StringToByteArray(objData.ToString());
-				progress_str.Report(MsgBox.Text);
-				if (m_clientSocket != null)
-				{
-					m_clientSocket.Send(byData);
-				}
-			}
-			catch (SocketException se)
-			{
-				progress_str.Report(se.Message);
-			}	
+			client.sendMessage(MsgBox.Text);
 		}
 
 		private void PortNoBox_KeyPress(object sender, KeyPressEventArgs e)
