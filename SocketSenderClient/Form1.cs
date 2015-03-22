@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Net;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
 namespace SocketSenderClient
@@ -73,8 +74,11 @@ namespace SocketSenderClient
 			String IPStr = "";
 			foreach (IPAddress ipaddress in iphostentry.AddressList)
 			{
-				IPStr = ipaddress.ToString();
-				return IPStr;
+				if (ipaddress.AddressFamily == AddressFamily.InterNetwork)
+				{
+					IPStr = ipaddress.ToString();
+					break;
+				}
 			}
 			return IPStr;
 		}
