@@ -11,10 +11,7 @@ namespace SocketSenderClient
 		private IProgress<string> progress_str;
 		private IProgress<Boolean> progress_hmi;
 
-		private byte[] m_dataBuffer = new byte[10];
-		private IAsyncResult m_result;
-		private AsyncCallback m_pfnCallBack;
-		private Socket m_clientSocket;
+		private UdpClient sender;
 
 		public Client(IProgress<string> pr_str, IProgress<Boolean> pr_hmi)
 		{
@@ -22,43 +19,12 @@ namespace SocketSenderClient
 			progress_hmi = pr_hmi;
 		}
 
-		public void openSocket(IPAddress ip, int iPortNo)
+		public void openSocket(IPAddress ip, int port)
 		{
-			try
-			{
-				// Create the socket instance
-				m_clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-				m_clientSocket.ReceiveTimeout = 15000;
+			sender = new UdpClient(ip.ToString(), port);
+			sender.BeginReceive(DataReceived, sender);
 
-				if ((ip != null) && (iPortNo >= System.Net.IPEndPoint.MinPort) && (iPortNo <= System.Net.IPEndPoint.MaxPort))
-				{
-					// Create the end point
-					IPEndPoint ipEnd = new IPEndPoint(ip, iPortNo);
-
-					// Connect to the remote host
-					m_clientSocket.Connect(ipEnd);
-					if (m_clientSocket.Connected)
-					{
-						progress_hmi.Report(true);
-						//Wait for data asynchronously
-						WaitForData();
-					}
-					else
-					{
-						progress_hmi.Report(false);
-					}
-				}
-				else
-				{
-					progress_hmi.Report(false);
-				}
-			}
-			catch (SocketException se)
-			{
-				progress_str.Report("Connection failed, is the server running?");
-				progress_str.Report(se.Message);
-				progress_hmi.Report(false);
-			}
+			progress_hmi.Report(true);
 		}
 
 		public void sendMessage(string msg)
@@ -68,9 +34,9 @@ namespace SocketSenderClient
 				Object objData = msg;
 				byte[] byData = StringToByteArray(objData.ToString());
 				progress_str.Report(msg);
-				if (m_clientSocket != null)
+				if (sender != null)
 				{
-					m_clientSocket.Send(byData);
+					sender.Send(byData, byData.Length);
 				}
 			}
 			catch (SocketException se)
@@ -81,10 +47,10 @@ namespace SocketSenderClient
 
 		public void closeSocket()
 		{
-			if (m_clientSocket != null)
+			if (sender != null)
 			{
-				m_clientSocket.Close();
-				m_clientSocket = null;
+				sender.Close();
+				sender = null;
 			}
 		}
 
@@ -96,58 +62,31 @@ namespace SocketSenderClient
 							 .ToArray();
 		}
 
-		private void OnDataReceived(IAsyncResult asyn)
+		private void DataReceived(IAsyncResult ar)
 		{
 			try
 			{
-				SocketPacket theSockId = (SocketPacket)asyn.AsyncState;
-				int iRx = theSockId.thisSocket.EndReceive(asyn);
-				char[] chars = new char[iRx + 1];
-				Decoder d = Encoding.UTF8.GetDecoder();
-				int charLen = d.GetChars(theSockId.dataBuffer, 0, iRx, chars, 0);
-				String szData = new String(chars);
-				progress_str.Report(szData);
-				WaitForData();
+				UdpClient c = (UdpClient)ar.AsyncState;
+				IPEndPoint receivedIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+				Byte[] receivedBytes = c.EndReceive(ar, ref receivedIpEndPoint);
+
+				// Convert data to ASCII and print in console
+				string receivedText = BitConverter.ToString(receivedBytes).Replace("-", string.Empty);
+				progress_str.Report(receivedIpEndPoint + ": " + receivedText + Environment.NewLine);
+
+				// Restart listening for udp data packages
+				c.BeginReceive(DataReceived, ar.AsyncState);
 			}
 			catch (ObjectDisposedException)
 			{
-				progress_str.Report("OnDataReceived: Socket has been closed");
+				progress_str.Report("DataReceived: Socket has been closed");
+				progress_hmi.Report(false);
 			}
 			catch (SocketException se)
 			{
 				progress_str.Report(se.Message);
 				progress_hmi.Report(false);
 			}
-		}
-
-		private void WaitForData()
-		{
-			try
-			{
-				if (m_pfnCallBack == null)
-				{
-					m_pfnCallBack = new AsyncCallback(OnDataReceived);
-				}
-				SocketPacket theSocPkt = new SocketPacket();
-				theSocPkt.thisSocket = m_clientSocket;
-				// Start listening to the data asynchronously
-				m_result = m_clientSocket.BeginReceive(theSocPkt.dataBuffer,
-														0,
-														theSocPkt.dataBuffer.Length,
-														SocketFlags.None,
-														m_pfnCallBack,
-														theSocPkt);
-			}
-			catch (SocketException se)
-			{
-				progress_str.Report(se.Message);
-			}
-		}
-
-		private class SocketPacket
-		{
-			public Socket thisSocket;
-			public byte[] dataBuffer = new byte[1];
 		}
 	}
 }
