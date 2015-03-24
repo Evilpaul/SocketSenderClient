@@ -168,9 +168,15 @@ namespace SocketSenderClient
 
 		private void SendMsgButton_Click(object sender, EventArgs e)
 		{
-			progress_str.Report("Sending Msg...");
-
-			client.sendMessage(MsgBox.Text);
+			if (MsgBox.Text.Length % 2 == 1)
+			{
+				progress_str.Report("Error: Send data cannot have an odd number of digits");
+			}
+			else
+			{
+				progress_str.Report("Sending Msg...");
+				client.sendMessage(MsgBox.Text);
+			}
 		}
 
 		private void PortNoBox_KeyPress(object sender, KeyPressEventArgs e)
