@@ -31,9 +31,8 @@ namespace SocketSenderClient
 		{
 			try
 			{
-				Object objData = msg;
-				byte[] byData = StringToByteArray(objData.ToString());
-				progress_str.Report(msg);
+				byte[] byData = StringToByteArray(msg);
+				progress_str.Report(BitConverter.ToString(byData).Replace("-", string.Empty));
 				if (sender != null)
 				{
 					sender.Send(byData, byData.Length);
