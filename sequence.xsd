@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="sequence">
+	<xs:complexType>
+		<xs:element name="delay" type="xs:integer"/>
+		<xs:element name="message" type="xs:string">
+			<xs:attribute name="name" type="xs:string"/>
+		</xs:element>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>
