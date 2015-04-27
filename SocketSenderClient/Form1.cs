@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace SocketSenderClient
 {
@@ -34,8 +35,10 @@ namespace SocketSenderClient
 				else
 				{
 					OpenSocketButton.Enabled = !status;
+					openToolStripMenuItem.Enabled = !status;
 				}
 				CloseSocketButton.Enabled = status;
+				closeToolStripMenuItem.Enabled = status;
 				if (status)
 				{
 					UpdateSendBtnStatus();
@@ -140,10 +143,12 @@ namespace SocketSenderClient
 			if (String.IsNullOrEmpty(ServerIpBox.Text) || String.IsNullOrEmpty(PortNoBox.Text) || !matchIp.Success || !matchPort.Success)
 			{
 				OpenSocketButton.Enabled = false;
+				openToolStripMenuItem.Enabled = false;
 			}
 			else
 			{
 				OpenSocketButton.Enabled = true;
+				openToolStripMenuItem.Enabled = true;
 			}
 		}
 
@@ -161,8 +166,8 @@ namespace SocketSenderClient
 
 		private void CloseSocketButton_Click(object sender, EventArgs e)
 		{
-			progress_str.Report("Closing Socket..."); 
-			
+			progress_str.Report("Closing Socket...");
+
 			progress_hmi.Report(false);
 		}
 
@@ -221,6 +226,69 @@ namespace SocketSenderClient
 		private void PortNoBox_TextChanged(object sender, EventArgs e)
 		{
 			UpdateOpenBtnStatus();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			OpenSocketButton.Enabled = false;
+			progress_str.Report("Opening Socket...");
+
+			// See if we have text on the IP and Port text fields
+			if (ServerIpBox.Text == "" || PortNoBox.Text == "")
+			{
+				progress_str.Report("IP Address and Port Number are required to connect to the Server");
+				progress_hmi.Report(false);
+				return;
+			}
+
+			client.openSocket(parseIpAddr(), parsePortNo());
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			progress_str.Report("Closing Socket...");
+
+			progress_hmi.Report(false);
+		}
+
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Show the dialog and get result.
+			DialogResult result = openFileDialog1.ShowDialog();
+			if (result == DialogResult.OK) // Test result.
+			{
+				loadFile(openFileDialog1.FileName);
+			}
+		}
+
+		private void loadFile(string filePath)
+		{
+			using (XmlReader reader = XmlReader.Create(filePath))
+			{
+				reader.MoveToContent();
+				reader.ReadToDescendant("Process");
+
+				do
+				{
+					if ((reader.Name == "Process") && (reader.NodeType == XmlNodeType.Element))
+					{
+						if (reader.MoveToAttribute("name"))
+						{
+							if (reader.ReadAttributeValue())
+							{
+								ListViewItem lvi = new ListViewItem(reader.Value.ToString());
+								lvi.SubItems.Add("x");
+								MessageList.Items.Add(lvi);
+							}
+						}
+					}
+				} while (reader.Read());
+			}
 		}
 	}
 }

@@ -29,10 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
             "NightMode: Off",
             "100600"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
             "NightMode: On",
             "100601"}, -1);
 			this.OpenSocketButton = new System.Windows.Forms.Button();
@@ -46,14 +46,24 @@
 			this.SendMsgButton = new System.Windows.Forms.Button();
 			this.MsgBox = new System.Windows.Forms.TextBox();
 			this.MessageList = new System.Windows.Forms.ListView();
-			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.Data = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.socketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// OpenSocketButton
 			// 
-			this.OpenSocketButton.Location = new System.Drawing.Point(175, 6);
+			this.OpenSocketButton.Location = new System.Drawing.Point(175, 27);
 			this.OpenSocketButton.Name = "OpenSocketButton";
 			this.OpenSocketButton.Size = new System.Drawing.Size(75, 46);
 			this.OpenSocketButton.TabIndex = 0;
@@ -64,7 +74,7 @@
 			// CloseSocketButton
 			// 
 			this.CloseSocketButton.Enabled = false;
-			this.CloseSocketButton.Location = new System.Drawing.Point(256, 6);
+			this.CloseSocketButton.Location = new System.Drawing.Point(256, 27);
 			this.CloseSocketButton.Name = "CloseSocketButton";
 			this.CloseSocketButton.Size = new System.Drawing.Size(75, 46);
 			this.CloseSocketButton.TabIndex = 1;
@@ -75,7 +85,7 @@
 			// ServerIpBox
 			// 
 			this.ServerIpBox.ContextMenuStrip = this.contextMenuStrip1;
-			this.ServerIpBox.Location = new System.Drawing.Point(69, 6);
+			this.ServerIpBox.Location = new System.Drawing.Point(69, 27);
 			this.ServerIpBox.Name = "ServerIpBox";
 			this.ServerIpBox.Size = new System.Drawing.Size(100, 20);
 			this.ServerIpBox.TabIndex = 2;
@@ -90,7 +100,7 @@
 			// PortNoBox
 			// 
 			this.PortNoBox.ContextMenuStrip = this.contextMenuStrip1;
-			this.PortNoBox.Location = new System.Drawing.Point(69, 32);
+			this.PortNoBox.Location = new System.Drawing.Point(69, 53);
 			this.PortNoBox.Name = "PortNoBox";
 			this.PortNoBox.Size = new System.Drawing.Size(100, 20);
 			this.PortNoBox.TabIndex = 3;
@@ -100,7 +110,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 30);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(51, 13);
 			this.label1.TabIndex = 4;
@@ -109,7 +119,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 35);
+			this.label2.Location = new System.Drawing.Point(12, 56);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(46, 13);
 			this.label2.TabIndex = 5;
@@ -119,7 +129,7 @@
 			// 
 			this.OutputLog.FormattingEnabled = true;
 			this.OutputLog.HorizontalScrollbar = true;
-			this.OutputLog.Location = new System.Drawing.Point(12, 58);
+			this.OutputLog.Location = new System.Drawing.Point(12, 81);
 			this.OutputLog.Name = "OutputLog";
 			this.OutputLog.Size = new System.Drawing.Size(319, 212);
 			this.OutputLog.TabIndex = 6;
@@ -127,7 +137,7 @@
 			// SendMsgButton
 			// 
 			this.SendMsgButton.Enabled = false;
-			this.SendMsgButton.Location = new System.Drawing.Point(12, 276);
+			this.SendMsgButton.Location = new System.Drawing.Point(12, 297);
 			this.SendMsgButton.Name = "SendMsgButton";
 			this.SendMsgButton.Size = new System.Drawing.Size(60, 23);
 			this.SendMsgButton.TabIndex = 7;
@@ -139,7 +149,7 @@
 			// 
 			this.MsgBox.ContextMenuStrip = this.contextMenuStrip1;
 			this.MsgBox.Enabled = false;
-			this.MsgBox.Location = new System.Drawing.Point(78, 278);
+			this.MsgBox.Location = new System.Drawing.Point(80, 299);
 			this.MsgBox.Name = "MsgBox";
 			this.MsgBox.Size = new System.Drawing.Size(253, 20);
 			this.MsgBox.TabIndex = 8;
@@ -156,12 +166,12 @@
 			this.MessageList.FullRowSelect = true;
 			this.MessageList.GridLines = true;
 			this.MessageList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			listViewItem1.Tag = "";
-			listViewItem2.Tag = "";
+			listViewItem9.Tag = "";
+			listViewItem10.Tag = "";
 			this.MessageList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
-			this.MessageList.Location = new System.Drawing.Point(337, 6);
+            listViewItem9,
+            listViewItem10});
+			this.MessageList.Location = new System.Drawing.Point(339, 27);
 			this.MessageList.MultiSelect = false;
 			this.MessageList.Name = "MessageList";
 			this.MessageList.ShowGroups = false;
@@ -182,11 +192,81 @@
 			this.Data.Text = "Data";
 			this.Data.Width = 127;
 			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.socketToolStripMenuItem,
+            this.dataToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(564, 24);
+			this.menuStrip1.TabIndex = 10;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Text = "File";
+			// 
+			// socketToolStripMenuItem
+			// 
+			this.socketToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.closeToolStripMenuItem});
+			this.socketToolStripMenuItem.Name = "socketToolStripMenuItem";
+			this.socketToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+			this.socketToolStripMenuItem.Text = "Socket";
+			// 
+			// dataToolStripMenuItem
+			// 
+			this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem});
+			this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
+			this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+			this.dataToolStripMenuItem.Text = "Data";
+			// 
+			// loadToolStripMenuItem
+			// 
+			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadToolStripMenuItem.Text = "Load...";
+			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+			// 
+			// openToolStripMenuItem
+			// 
+			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Text = "Open...";
+			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.FileName = "openFileDialog1";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(564, 314);
+			this.ClientSize = new System.Drawing.Size(564, 330);
+			this.Controls.Add(this.menuStrip1);
 			this.Controls.Add(this.MessageList);
 			this.Controls.Add(this.MsgBox);
 			this.Controls.Add(this.SendMsgButton);
@@ -198,9 +278,12 @@
 			this.Controls.Add(this.CloseSocketButton);
 			this.Controls.Add(this.OpenSocketButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MainMenuStrip = this.menuStrip1;
 			this.MaximizeBox = false;
 			this.Name = "Form1";
 			this.Text = "Socket Sender - Client";
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -222,6 +305,15 @@
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.ColumnHeader Description;
 		private System.Windows.Forms.ColumnHeader Data;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem socketToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 	}
 }
 
