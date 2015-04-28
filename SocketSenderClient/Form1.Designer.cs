@@ -29,10 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "NightMode: Off",
             "100600"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "NightMode: On",
             "100601"}, -1);
 			this.ServerIpBox = new System.Windows.Forms.TextBox();
@@ -55,12 +55,15 @@
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.sequenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exampleDataXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exampleSequenceXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -148,11 +151,11 @@
 			this.MessageList.FullRowSelect = true;
 			this.MessageList.GridLines = true;
 			this.MessageList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			listViewItem11.Tag = "";
-			listViewItem12.Tag = "";
+			listViewItem7.Tag = "";
+			listViewItem8.Tag = "";
 			this.MessageList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem11,
-            listViewItem12});
+            listViewItem7,
+            listViewItem8});
 			this.MessageList.Location = new System.Drawing.Point(339, 27);
 			this.MessageList.MultiSelect = false;
 			this.MessageList.Name = "MessageList";
@@ -180,7 +183,8 @@
             this.fileToolStripMenuItem,
             this.socketToolStripMenuItem,
             this.dataToolStripMenuItem,
-            this.sequenceToolStripMenuItem});
+            this.sequenceToolStripMenuItem,
+            this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(564, 24);
@@ -240,10 +244,6 @@
 			this.loadToolStripMenuItem.Text = "Load...";
 			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
-			// openFileDialog1
-			// 
-			this.openFileDialog1.Filter = "XML file|*.xml|All files|*.*";
-			// 
 			// sequenceToolStripMenuItem
 			// 
 			this.sequenceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -257,25 +257,53 @@
 			// loadToolStripMenuItem1
 			// 
 			this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-			this.loadToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.loadToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
 			this.loadToolStripMenuItem1.Text = "Load...";
 			this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
-			// 
-			// runToolStripMenuItem
-			// 
-			this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-			this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.runToolStripMenuItem.Text = "Run...";
-			this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(106, 6);
+			// 
+			// runToolStripMenuItem
+			// 
+			this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+			this.runToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+			this.runToolStripMenuItem.Text = "Run...";
+			this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.Filter = "XML file|*.xml|All files|*.*";
 			// 
 			// openFileDialog2
 			// 
 			this.openFileDialog2.Filter = "XML file|*.xml|All files|*.*";
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exampleDataXMLToolStripMenuItem,
+            this.exampleSequenceXMLToolStripMenuItem});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// exampleDataXMLToolStripMenuItem
+			// 
+			this.exampleDataXMLToolStripMenuItem.Name = "exampleDataXMLToolStripMenuItem";
+			this.exampleDataXMLToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+			this.exampleDataXMLToolStripMenuItem.Text = "Example Data XML";
+			this.exampleDataXMLToolStripMenuItem.Click += new System.EventHandler(this.exampleDataXMLToolStripMenuItem_Click);
+			// 
+			// exampleSequenceXMLToolStripMenuItem
+			// 
+			this.exampleSequenceXMLToolStripMenuItem.Name = "exampleSequenceXMLToolStripMenuItem";
+			this.exampleSequenceXMLToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+			this.exampleSequenceXMLToolStripMenuItem.Text = "Example Sequence XML";
+			this.exampleSequenceXMLToolStripMenuItem.Click += new System.EventHandler(this.exampleSequenceXMLToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -331,6 +359,9 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
 		private System.Windows.Forms.OpenFileDialog openFileDialog2;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exampleDataXMLToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exampleSequenceXMLToolStripMenuItem;
 	}
 }
 

@@ -283,5 +283,17 @@ namespace SocketSenderClient
 		{
 			sequence.Run();
 		}
+
+		private void exampleDataXMLToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Form2 popup = new Form2("Example messages XML", Properties.Resources.messages_example);
+			popup.ShowDialog();
+		}
+
+		private void exampleSequenceXMLToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Form2 popup = new Form2("Example sequence XML", Properties.Resources.sequence_example);
+			popup.ShowDialog();
+		}
 	}
 }

@@ -63,15 +63,18 @@ namespace SocketSenderClient.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///  &lt;xs:simpleType name=&quot;messageType&quot;&gt;
+        ///    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+        ///      &lt;xs:pattern value=&quot;([a-fA-F0-9][a-fA-F0-9])+&quot; /&gt;
+        ///    &lt;/xs:restriction&gt;
+        ///  &lt;/xs:simpleType&gt;
+        ///
         ///  &lt;xs:element name=&quot;messages&quot;&gt;
         ///    &lt;xs:complexType&gt;
         ///      &lt;xs:sequence&gt;
         ///        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;message&quot;&gt;
         ///          &lt;xs:complexType&gt;
-        ///            &lt;xs:simpleContent&gt;
-        ///              &lt;xs:extension base=&quot;xs:string&quot;&gt;
-        ///                &lt;xs:attribute name=&quot;name&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
-        ///              &lt;/xs:extension&gt;        /// [rest of string was truncated]&quot;;.
+        ///          [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string messages {
             get {
@@ -81,20 +84,53 @@ namespace SocketSenderClient.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;messages&gt;
+        ///	&lt;message name=&quot;test1&quot;&gt;1F&lt;/message&gt;
+        ///	&lt;message name=&quot;test2&quot;&gt;2E&lt;/message&gt;
+        ///	&lt;message name=&quot;test3&quot;&gt;3D&lt;/message&gt;
+        ///&lt;/messages&gt;.
+        /// </summary>
+        internal static string messages_example {
+            get {
+                return ResourceManager.GetString("messages_example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///  &lt;xs:simpleType name=&quot;messageType&quot;&gt;
+        ///    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+        ///      &lt;xs:pattern value=&quot;([a-fA-F0-9][a-fA-F0-9])+&quot; /&gt;
+        ///    &lt;/xs:restriction&gt;
+        ///  &lt;/xs:simpleType&gt;
+        ///
         ///  &lt;xs:element name=&quot;sequence&quot;&gt;
         ///    &lt;xs:complexType&gt;
         ///      &lt;xs:sequence&gt;
         ///        &lt;xs:choice maxOccurs=&quot;unbounded&quot;&gt;
         ///          &lt;xs:element name=&quot;message&quot;&gt;
-        ///            &lt;xs:complexType&gt;
-        ///              &lt;xs:simpleContent&gt;
-        ///                &lt;xs:extension base=&quot;xs:string&quot;&gt;
-        ///                  &lt;xs:attribute name=&quot;name&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;        /// [rest of string was truncated]&quot;;.
+        ///            &lt;x [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string sequence {
             get {
                 return ResourceManager.GetString("sequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;sequence&gt;
+        ///	&lt;message name=&quot;test1&quot;&gt;1F&lt;/message&gt;
+        ///	&lt;delay&gt;7000&lt;/delay&gt;
+        ///	&lt;message name=&quot;test2&quot;&gt;2E&lt;/message&gt;
+        ///	&lt;message name=&quot;test3&quot;&gt;3D&lt;/message&gt;
+        ///	&lt;delay&gt;1&lt;/delay&gt;
+        ///&lt;/sequence&gt;.
+        /// </summary>
+        internal static string sequence_example {
+            get {
+                return ResourceManager.GetString("sequence_example", resourceCulture);
             }
         }
     }
