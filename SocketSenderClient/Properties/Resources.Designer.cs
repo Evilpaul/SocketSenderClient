@@ -85,6 +85,19 @@ namespace SocketSenderClient.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;messages&gt;
+        ///	&lt;message name=&quot;NightMode: Off&quot;&gt;100600&lt;/message&gt;
+        ///	&lt;message name=&quot;NightMode: On&quot;&gt;100601&lt;/message&gt;
+        ///&lt;/messages&gt;.
+        /// </summary>
+        internal static string messages_default {
+            get {
+                return ResourceManager.GetString("messages_default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;messages&gt;
         ///	&lt;message name=&quot;test1&quot;&gt;1F&lt;/message&gt;
         ///	&lt;message name=&quot;test2&quot;&gt;2E&lt;/message&gt;
         ///	&lt;message name=&quot;test3&quot;&gt;3D&lt;/message&gt;

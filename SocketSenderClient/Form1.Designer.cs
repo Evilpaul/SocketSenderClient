@@ -29,12 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
-            "NightMode: Off",
-            "100600"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
-            "NightMode: On",
-            "100601"}, -1);
 			this.ServerIpBox = new System.Windows.Forms.TextBox();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.PortNoBox = new System.Windows.Forms.TextBox();
@@ -59,11 +53,11 @@
 			this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exampleDataXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exampleSequenceXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -151,11 +145,6 @@
 			this.MessageList.FullRowSelect = true;
 			this.MessageList.GridLines = true;
 			this.MessageList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			listViewItem7.Tag = "";
-			listViewItem8.Tag = "";
-			this.MessageList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7,
-            listViewItem8});
 			this.MessageList.Location = new System.Drawing.Point(339, 27);
 			this.MessageList.MultiSelect = false;
 			this.MessageList.Name = "MessageList";
@@ -273,14 +262,6 @@
 			this.runToolStripMenuItem.Text = "Run...";
 			this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
 			// 
-			// openFileDialog1
-			// 
-			this.openFileDialog1.Filter = "XML file|*.xml|All files|*.*";
-			// 
-			// openFileDialog2
-			// 
-			this.openFileDialog2.Filter = "XML file|*.xml|All files|*.*";
-			// 
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -304,6 +285,14 @@
 			this.exampleSequenceXMLToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
 			this.exampleSequenceXMLToolStripMenuItem.Text = "Example Sequence XML";
 			this.exampleSequenceXMLToolStripMenuItem.Click += new System.EventHandler(this.exampleSequenceXMLToolStripMenuItem_Click);
+			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.Filter = "XML file|*.xml|All files|*.*";
+			// 
+			// openFileDialog2
+			// 
+			this.openFileDialog2.Filter = "XML file|*.xml|All files|*.*";
 			// 
 			// Form1
 			// 

@@ -70,6 +70,8 @@ namespace SocketSenderClient
 			client = new Client(progress_str, progress_hmi);
 			sequence = new Sequence(progress_str, ref client);
 			data = new Data(progress_str, ref MessageList);
+
+			data.LoadDefaults();
 		}
 
 		private string GetIP()

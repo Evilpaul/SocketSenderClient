@@ -98,10 +98,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\messages-example.xml" />
+    <EmbeddedResource Include="Resources\messages-example.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\sequence-example.xml" />
+    <EmbeddedResource Include="Resources\sequence-example.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\messages-default.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
