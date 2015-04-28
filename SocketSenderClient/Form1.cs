@@ -14,6 +14,7 @@ namespace SocketSenderClient
 	{
 		private IProgress<string> progress_str;
 		private IProgress<Boolean> progress_hmi;
+		private IProgress<Boolean> progress_seq;
 
 		private Client client;
 		private Sequence sequence;
@@ -37,20 +38,17 @@ namespace SocketSenderClient
 				if (!status)
 				{
 					UpdateOpenBtnStatus();
+					SendMsgButton.Enabled = status;
+					socketLabel.Hide();
 				}
 				else
-				{
-					openToolStripMenuItem.Enabled = !status;
-				}
-				closeToolStripMenuItem.Enabled = status;
-				if (status)
 				{
 					UpdateSendBtnStatus();
+					openToolStripMenuItem.Enabled = !status;
+					socketLabel.Show();
 				}
-				else
-				{
-					SendMsgButton.Enabled = status;
-				}
+				closeToolStripMenuItem.Enabled = status;
+
 				MsgBox.Enabled = status;
 				MessageList.Enabled = status;
 
@@ -60,15 +58,28 @@ namespace SocketSenderClient
 				}
 			});
 
+			progress_seq = new Progress<Boolean>(status =>
+			{
+				if (!status)
+				{
+					sequenceLabel.Hide();
+				}
+				else
+				{
+					sequenceLabel.Show();
+				}
+			});
+
 			ServerIpBox.Text = GetIP();
 			PortNoBox.Text = "5050";
 
 			toolTip1.SetToolTip(MsgBox, "Hex input (e.g. DEADBEEF01)");
 
 			progress_hmi.Report(false);
+			progress_seq.Report(false);
 
 			client = new Client(progress_str, progress_hmi);
-			sequence = new Sequence(progress_str, ref client);
+			sequence = new Sequence(progress_str, progress_seq, ref client);
 			data = new Data(progress_str, ref MessageList);
 
 			data.LoadDefaults();

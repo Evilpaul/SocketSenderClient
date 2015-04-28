@@ -12,14 +12,16 @@ namespace SocketSenderClient
 	class Sequence
 	{
 		private IProgress<string> progress_str;
+		private IProgress<bool> progress_seq;
 		private Client client;
 		private bool is_file_loaded = false;
 
 		private List<node> list = new List<node>();
 
-		public Sequence(IProgress<string> pr_str, ref Client cl)
+		public Sequence(IProgress<string> pr_str, IProgress<bool> pr_seq, ref Client cl)
 		{
 			progress_str = pr_str;
+			progress_seq = pr_seq;
 			client = cl;
 			is_file_loaded = false;
 		}
@@ -31,7 +33,9 @@ namespace SocketSenderClient
 
 		public async void Run()
 		{
+			progress_seq.Report(true);
 			await do_async();
+			progress_seq.Report(false);
 		}
 
 		private Task do_async()

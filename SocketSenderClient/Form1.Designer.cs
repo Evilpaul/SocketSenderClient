@@ -58,6 +58,8 @@
 			this.exampleSequenceXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+			this.socketLabel = new System.Windows.Forms.Label();
+			this.sequenceLabel = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -130,7 +132,7 @@
 			this.MsgBox.Enabled = false;
 			this.MsgBox.Location = new System.Drawing.Point(80, 299);
 			this.MsgBox.Name = "MsgBox";
-			this.MsgBox.Size = new System.Drawing.Size(253, 20);
+			this.MsgBox.Size = new System.Drawing.Size(251, 20);
 			this.MsgBox.TabIndex = 8;
 			this.MsgBox.TextChanged += new System.EventHandler(this.MsgBox_TextChanged);
 			this.MsgBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MsgBox_KeyPress);
@@ -145,7 +147,7 @@
 			this.MessageList.FullRowSelect = true;
 			this.MessageList.GridLines = true;
 			this.MessageList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.MessageList.Location = new System.Drawing.Point(339, 27);
+			this.MessageList.Location = new System.Drawing.Point(337, 27);
 			this.MessageList.MultiSelect = false;
 			this.MessageList.Name = "MessageList";
 			this.MessageList.ShowGroups = false;
@@ -176,7 +178,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(564, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(560, 24);
 			this.menuStrip1.TabIndex = 10;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -294,11 +296,33 @@
 			// 
 			this.openFileDialog2.Filter = "XML file|*.xml|All files|*.*";
 			// 
+			// socketLabel
+			// 
+			this.socketLabel.AutoSize = true;
+			this.socketLabel.Location = new System.Drawing.Point(261, 30);
+			this.socketLabel.Name = "socketLabel";
+			this.socketLabel.Size = new System.Drawing.Size(70, 13);
+			this.socketLabel.TabIndex = 11;
+			this.socketLabel.Text = "Socket Open";
+			this.socketLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// sequenceLabel
+			// 
+			this.sequenceLabel.AutoSize = true;
+			this.sequenceLabel.Location = new System.Drawing.Point(232, 56);
+			this.sequenceLabel.Name = "sequenceLabel";
+			this.sequenceLabel.Size = new System.Drawing.Size(99, 13);
+			this.sequenceLabel.TabIndex = 12;
+			this.sequenceLabel.Text = "Sequence Running";
+			this.sequenceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(564, 330);
+			this.ClientSize = new System.Drawing.Size(560, 327);
+			this.Controls.Add(this.sequenceLabel);
+			this.Controls.Add(this.socketLabel);
 			this.Controls.Add(this.menuStrip1);
 			this.Controls.Add(this.MessageList);
 			this.Controls.Add(this.MsgBox);
@@ -351,6 +375,8 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exampleDataXMLToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exampleSequenceXMLToolStripMenuItem;
+		private System.Windows.Forms.Label socketLabel;
+		private System.Windows.Forms.Label sequenceLabel;
 	}
 }
 
