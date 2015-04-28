@@ -16,6 +16,8 @@ namespace SocketSenderClient
 		private IProgress<Boolean> progress_hmi;
 
 		private Client client;
+		private Sequence sequence;
+		private Data data;
 
 		public Form1()
 		{
@@ -37,10 +39,8 @@ namespace SocketSenderClient
 				}
 				else
 				{
-					OpenSocketButton.Enabled = !status;
 					openToolStripMenuItem.Enabled = !status;
 				}
-				CloseSocketButton.Enabled = status;
 				closeToolStripMenuItem.Enabled = status;
 				if (status)
 				{
@@ -67,6 +67,8 @@ namespace SocketSenderClient
 			progress_hmi.Report(false);
 
 			client = new Client(progress_str, progress_hmi);
+			sequence = new Sequence(progress_str, ref client);
+			data = new Data(progress_str, ref MessageList);
 		}
 
 		private string GetIP()
@@ -91,7 +93,7 @@ namespace SocketSenderClient
 
 		private void OpenSocketButton_Click(object sender, EventArgs e)
 		{
-			OpenSocketButton.Enabled = false;
+			openToolStripMenuItem.Enabled = false;
 			progress_str.Report("Opening Socket...");
 
 			// See if we have text on the IP and Port text fields
@@ -145,12 +147,10 @@ namespace SocketSenderClient
 
 			if (String.IsNullOrEmpty(ServerIpBox.Text) || String.IsNullOrEmpty(PortNoBox.Text) || !matchIp.Success || !matchPort.Success)
 			{
-				OpenSocketButton.Enabled = false;
 				openToolStripMenuItem.Enabled = false;
 			}
 			else
 			{
-				OpenSocketButton.Enabled = true;
 				openToolStripMenuItem.Enabled = true;
 			}
 		}
@@ -238,7 +238,7 @@ namespace SocketSenderClient
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			OpenSocketButton.Enabled = false;
+			openToolStripMenuItem.Enabled = false;
 			progress_str.Report("Opening Socket...");
 
 			// See if we have text on the IP and Port text fields
@@ -265,71 +265,23 @@ namespace SocketSenderClient
 			DialogResult result = openFileDialog1.ShowDialog();
 			if (result == DialogResult.OK) // Test result.
 			{
-				loadFile(openFileDialog1.FileName, "SocketSenderClient.Resources.messages.xsd");
+				data.Load(openFileDialog1.FileName);
 			}
 		}
 
-		private void loadFile(string filePath, string schemaPath)
+		private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			// load the XSD (schema) from the assembly's embedded resources and add it to schema set
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			XmlSchema schema;
-			using (StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream(schemaPath)))
+			// Show the dialog and get result.
+			DialogResult result = openFileDialog2.ShowDialog();
+			if (result == DialogResult.OK) // Test result.
 			{
-				schema = XmlSchema.Read(streamReader, SchemaValidationCallback);
-			}
-
-			// set the validation settings
-			XmlReaderSettings readerSettings = new XmlReaderSettings();
-			readerSettings.ValidationType = ValidationType.Schema;
-			readerSettings.Schemas = new XmlSchemaSet();
-			readerSettings.Schemas.Add(schema);
-			readerSettings.ValidationEventHandler += new ValidationEventHandler(DocumentValidationCallback);
-
-			// create an XmlReader from the passed XML string. Use the reader settings just created
-			using (XmlReader reader = XmlReader.Create(filePath, readerSettings))
-			{
-				reader.MoveToContent();
-				reader.ReadToDescendant("message");
-
-				ListViewItem lvi;
-				string name, value;
-
-				MessageList.Items.Clear();
-
-				do
-				{
-					if ((reader.Name == "message") && (reader.NodeType == XmlNodeType.Element))
-					{
-						if (!reader.MoveToAttribute("name")) break;
-
-						if (!reader.ReadAttributeValue()) break;
-
-						name = reader.Value.ToString();
-
-						reader.MoveToContent();
-
-						value = reader.ReadContentAsString();
-
-						lvi = new ListViewItem(name);
-						lvi.SubItems.Add(value);
-						MessageList.Items.Add(lvi);
-					}
-				} while (reader.Read());
+				sequence.Load(openFileDialog2.FileName);
 			}
 		}
 
-		private void SchemaValidationCallback(object sender, ValidationEventArgs args)
+		private void runToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			progress_str.Report("Schema error: " + args.Message);
-		}
-
-		private void DocumentValidationCallback(object sender, ValidationEventArgs args)
-		{
-			if (args.Severity == XmlSeverityType.Warning)
-				progress_str.Report("Warning: Matching schema not found.  No validation occurred." + args.Message);
-			else
-				progress_str.Report("Validation error: " + args.Message);
+			sequence.Run();
 		}
 	}
 }
