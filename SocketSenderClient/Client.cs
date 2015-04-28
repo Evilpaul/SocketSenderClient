@@ -26,6 +26,11 @@ namespace SocketSenderClient
 			progress_hmi.Report(true);
 		}
 
+		public bool isSocketOpen()
+		{
+			return (sender != null);
+		}
+
 		public void sendMessage(string msg)
 		{
 			try

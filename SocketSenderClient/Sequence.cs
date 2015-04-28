@@ -47,6 +47,9 @@ namespace SocketSenderClient
 
 				foreach (node n in list)
 				{
+					if (!client.isSocketOpen())
+						break;
+
 					if (n.getType() == node.NodeType.Delay)
 					{
 						progress_str.Report("Sleeping for " + n.getDelay() + " milliseconds");
