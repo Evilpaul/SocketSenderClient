@@ -33,6 +33,7 @@ namespace SocketSenderClient
 			{
 				ServerIpBox.Enabled = !status;
 				PortNoBox.Enabled = !status;
+				runToolStripMenuItem.Enabled = status && sequence.isLoaded();
 				if (!status)
 				{
 					UpdateOpenBtnStatus();
