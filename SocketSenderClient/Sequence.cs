@@ -14,7 +14,6 @@ namespace SocketSenderClient
 		private IProgress<string> progress_str;
 		private Client client;
 		private bool is_file_loaded = false;
-		private bool read_result = false;
 
 		private List<node> list = new List<node>();
 
@@ -65,14 +64,12 @@ namespace SocketSenderClient
 
 		public void Load(string filePath)
 		{
-			read_result = true;
-
 			// load the XSD (schema) from the assembly's embedded resources and add it to schema set
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			XmlSchema schema;
 			using (StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream("SocketSenderClient.Resources.sequence.xsd")))
 			{
-				schema = XmlSchema.Read(streamReader, SchemaValidationCallback);
+				schema = XmlSchema.Read(streamReader, null);
 			}
 
 			// set the validation settings
@@ -80,11 +77,12 @@ namespace SocketSenderClient
 			readerSettings.ValidationType = ValidationType.Schema;
 			readerSettings.Schemas = new XmlSchemaSet();
 			readerSettings.Schemas.Add(schema);
-			readerSettings.ValidationEventHandler += new ValidationEventHandler(DocumentValidationCallback);
+//			readerSettings.ValidationEventHandler += new ValidationEventHandler(DocumentValidationCallback);
 
 			// create an XmlReader from the passed XML string. Use the reader settings just created
-			using (XmlReader reader = XmlReader.Create(filePath, readerSettings))
+			try
 			{
+				XmlReader reader = XmlReader.Create(filePath, readerSettings);
 				reader.MoveToContent();
 
 				list.Clear();
@@ -108,25 +106,15 @@ namespace SocketSenderClient
 				} while (reader.Read());
 
 				reader.Close();
-				is_file_loaded = read_result;
+				is_file_loaded = true;
+
+				progress_str.Report("File loaded : " + filePath);
 			}
-		}
-
-		private void SchemaValidationCallback(object sender, ValidationEventArgs args)
-		{
-			read_result = false;
-
-			progress_str.Report("Schema error: " + args.Message);
-		}
-
-		private void DocumentValidationCallback(object sender, ValidationEventArgs args)
-		{
-			read_result = false;
-
-			if (args.Severity == XmlSeverityType.Warning)
-				progress_str.Report("Warning: Matching schema not found.  No validation occurred." + args.Message);
-			else
-				progress_str.Report("Validation error: " + args.Message);
+			catch(XmlSchemaValidationException ex)
+			{
+				is_file_loaded = false;
+				progress_str.Report("Validation error: " + ex.Message);
+			}
 		}
 	}
 }
