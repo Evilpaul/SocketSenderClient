@@ -30,10 +30,10 @@ namespace SocketSenderClient
 		{
 			try
 			{
-				byte[] byData = StringToByteArray(msg);
-				progress_str.Report(BitConverter.ToString(byData).Replace("-", string.Empty));
 				if (sender != null)
 				{
+					byte[] byData = StringToByteArray(msg);
+					progress_str.Report(BitConverter.ToString(byData).Replace("-", string.Empty));
 					sender.Send(byData, byData.Length);
 				}
 			}
