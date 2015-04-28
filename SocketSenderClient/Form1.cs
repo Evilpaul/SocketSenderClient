@@ -289,9 +289,33 @@ namespace SocketSenderClient
 			// create an XmlReader from the passed XML string. Use the reader settings just created
 			using (XmlReader reader = XmlReader.Create(filePath, readerSettings))
 			{
-				while (xmlReader.Read())
+				reader.MoveToContent();
+				reader.ReadToDescendant("message");
+
+				ListViewItem lvi;
+				string name, value;
+
+				MessageList.Items.Clear();
+
+				do
 				{
-				}
+					if ((reader.Name == "message") && (reader.NodeType == XmlNodeType.Element))
+					{
+						if (!reader.MoveToAttribute("name")) break;
+
+						if (!reader.ReadAttributeValue()) break;
+
+						name = reader.Value.ToString();
+
+						reader.MoveToContent();
+
+						value = reader.ReadContentAsString();
+
+						lvi = new ListViewItem(name);
+						lvi.SubItems.Add(value);
+						MessageList.Items.Add(lvi);
+					}
+				} while (reader.Read());
 			}
 		}
 
