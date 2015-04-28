@@ -77,7 +77,6 @@ namespace SocketSenderClient
 			readerSettings.ValidationType = ValidationType.Schema;
 			readerSettings.Schemas = new XmlSchemaSet();
 			readerSettings.Schemas.Add(schema);
-//			readerSettings.ValidationEventHandler += new ValidationEventHandler(DocumentValidationCallback);
 
 			// create an XmlReader from the passed XML string. Use the reader settings just created
 			try

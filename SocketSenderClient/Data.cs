@@ -25,7 +25,7 @@ namespace SocketSenderClient
 			XmlSchema schema;
 			using (StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream("SocketSenderClient.Resources.messages.xsd")))
 			{
-				schema = XmlSchema.Read(streamReader, SchemaValidationCallback);
+				schema = XmlSchema.Read(streamReader, null);
 			}
 
 			// set the validation settings
@@ -33,7 +33,6 @@ namespace SocketSenderClient
 			readerSettings.ValidationType = ValidationType.Schema;
 			readerSettings.Schemas = new XmlSchemaSet();
 			readerSettings.Schemas.Add(schema);
-			readerSettings.ValidationEventHandler += new ValidationEventHandler(DocumentValidationCallback);
 
 			ListViewItem lvi;
 			string name, value;
@@ -41,8 +40,9 @@ namespace SocketSenderClient
 			MessageList.Items.Clear();
 
 			// create an XmlReader from the passed XML string. Use the reader settings just created
-			using (XmlReader reader = XmlReader.Create(filePath, readerSettings))
+			try
 			{
+				XmlReader reader = XmlReader.Create(filePath, readerSettings);
 				reader.MoveToContent();
 
 				do
@@ -64,19 +64,10 @@ namespace SocketSenderClient
 
 				reader.Close();
 			}
-		}
-
-		private void SchemaValidationCallback(object sender, ValidationEventArgs args)
-		{
-			progress_str.Report("Schema error: " + args.Message);
-		}
-
-		private void DocumentValidationCallback(object sender, ValidationEventArgs args)
-		{
-			if (args.Severity == XmlSeverityType.Warning)
-				progress_str.Report("Warning: Matching schema not found.  No validation occurred." + args.Message);
-			else
-				progress_str.Report("Validation error: " + args.Message);
+			catch (XmlSchemaValidationException ex)
+			{
+				progress_str.Report("Validation error: " + ex.Message);
+			}
 		}
 	}
 }
