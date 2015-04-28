@@ -277,6 +277,7 @@ namespace SocketSenderClient
 			if (result == DialogResult.OK) // Test result.
 			{
 				sequence.Load(openFileDialog2.FileName);
+				runToolStripMenuItem.Enabled = client.isSocketOpen() && sequence.isLoaded();
 			}
 		}
 
