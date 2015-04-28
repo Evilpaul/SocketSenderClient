@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Schema;
 
 namespace SocketSenderClient
 {
@@ -262,33 +265,47 @@ namespace SocketSenderClient
 			DialogResult result = openFileDialog1.ShowDialog();
 			if (result == DialogResult.OK) // Test result.
 			{
-				loadFile(openFileDialog1.FileName);
+				loadFile(openFileDialog1.FileName, "SocketSenderClient.Resources.messages.xsd");
 			}
 		}
 
-		private void loadFile(string filePath)
+		private void loadFile(string filePath, string schemaPath)
 		{
-			using (XmlReader reader = XmlReader.Create(filePath))
+			// load the XSD (schema) from the assembly's embedded resources and add it to schema set
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			XmlSchema schema;
+			using (var streamReader = new StreamReader(assembly.GetManifestResourceStream(schemaPath)))
 			{
-				reader.MoveToContent();
-				reader.ReadToDescendant("Process");
-
-				do
-				{
-					if ((reader.Name == "Process") && (reader.NodeType == XmlNodeType.Element))
-					{
-						if (reader.MoveToAttribute("name"))
-						{
-							if (reader.ReadAttributeValue())
-							{
-								ListViewItem lvi = new ListViewItem(reader.Value.ToString());
-								lvi.SubItems.Add("x");
-								MessageList.Items.Add(lvi);
-							}
-						}
-					}
-				} while (reader.Read());
+				schema = XmlSchema.Read(streamReader, SchemaValidationCallback);
 			}
+
+			// set the validation settings
+			var readerSettings = new XmlReaderSettings();
+			readerSettings.ValidationType = ValidationType.Schema;
+			readerSettings.Schemas = new XmlSchemaSet();
+			readerSettings.Schemas.Add(schema);
+			readerSettings.ValidationEventHandler += new ValidationEventHandler(DocumentValidationCallback);
+
+			// create an XmlReader from the passed XML string. Use the reader settings just created
+			using (var xmlReader = XmlReader.Create(filePath, readerSettings))
+			{
+				while (xmlReader.Read())
+				{
+				}
+			}
+		}
+
+		private void SchemaValidationCallback(object sender, ValidationEventArgs args)
+		{
+			progress_str.Report("Schema error: " + args.Message);
+		}
+
+		private void DocumentValidationCallback(object sender, ValidationEventArgs args)
+		{
+			if (args.Severity == XmlSeverityType.Warning)
+				progress_str.Report("Warning: Matching schema not found.  No validation occurred." + args.Message);
+			else
+				progress_str.Report("Validation error: " + args.Message);
 		}
 	}
 }
