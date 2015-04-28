@@ -274,20 +274,20 @@ namespace SocketSenderClient
 			// load the XSD (schema) from the assembly's embedded resources and add it to schema set
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			XmlSchema schema;
-			using (var streamReader = new StreamReader(assembly.GetManifestResourceStream(schemaPath)))
+			using (StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream(schemaPath)))
 			{
 				schema = XmlSchema.Read(streamReader, SchemaValidationCallback);
 			}
 
 			// set the validation settings
-			var readerSettings = new XmlReaderSettings();
+			XmlReaderSettings readerSettings = new XmlReaderSettings();
 			readerSettings.ValidationType = ValidationType.Schema;
 			readerSettings.Schemas = new XmlSchemaSet();
 			readerSettings.Schemas.Add(schema);
 			readerSettings.ValidationEventHandler += new ValidationEventHandler(DocumentValidationCallback);
 
 			// create an XmlReader from the passed XML string. Use the reader settings just created
-			using (var xmlReader = XmlReader.Create(filePath, readerSettings))
+			using (XmlReader reader = XmlReader.Create(filePath, readerSettings))
 			{
 				while (xmlReader.Read())
 				{
